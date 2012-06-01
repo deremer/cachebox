@@ -1,5 +1,5 @@
 {
-  "name": "CacheBox",
+  "name": "cachebox",
   "description" : "Mongo-driven query cache that supports geospatial lookups",
   "version": "0.0.1",
   "homepage": "https://github.com/deremer/cachebox",

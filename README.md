@@ -37,7 +37,7 @@ var cbConfig = {
 		, 'collectionName': 'cachebox'
 	};
 	
-var cachebox = new (require('CacheBox')).CacheBox(mongodbUri, cbConfig);
+var cachebox = new (require('cachebox')).CacheBox(mongodbUri, cbConfig);
 
 ```    
 
