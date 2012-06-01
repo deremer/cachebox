@@ -2,6 +2,7 @@
   "name": "CacheBox",
   "description" : "Mongo-driven query cache that supports geospatial lookups",
   "version": "0.0.1",
+  "homepage": "https://github.com/deremer/cachebox",
   "author": "David DeRemer <dd@davidderemer.com>",    
   "contributors": [
     "David DeRemer"
