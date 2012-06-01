@@ -8,6 +8,10 @@ effect on the results).
 
 ----
 
+## Install
+
+npm install cachebox
+
 ## Setup
 
 ### Create Connection
