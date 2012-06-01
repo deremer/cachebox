@@ -15,22 +15,24 @@ effect on the results).
 CacheBox has two initialization parameters:
 * dburi - a path to a mongodb (e.g., mongodb://user:pass@localhost:port/databaseName)
 * config - options for setup
-** timeToExpire {Number} - milliseconds until a cached object is purged, default: 1 day
-** auto_reconnect {Boolean} - if should autoreconnect to mongodb, default: true
-** maxDist {Number} - maxDist to pull from cache if using geospatial
-** distUnit {String} - 'm' or 'ft' as unit for geospatial 
-** collectionName {String} - name of collection for cache, default: cachebox
+
+#### Config Options
+* timeToExpire {Number} - milliseconds until a cached object is purged, default: 1 day
+* auto_reconnect {Boolean} - if should autoreconnect to mongodb, default: true
+* maxDist {Number} - maxDist to pull from cache if using geospatial
+* distUnit {String} - 'm' or 'ft' as unit for geospatial 
+* collectionName {String} - name of collection for cache, default: cachebox
 
 #### Create Cachebox
 
 ```javascript
 
-var mongodbUri = mongodb://user:pass@localhost:port/databaseName;
+var mongodbUri = 'mongodb://user:pass@localhost:port/databaseName';
 
 var cbConfig = {
-			'timeToExpire' : 24 * 60 * 60 * 1000
+		  'timeToExpire' : 24 * 60 * 60 * 1000
 		, 'auto_reconnect': true
-		,	'maxDist' : 50
+		, 'maxDist' : 50
 		, 'distUnit': 'ft'
 		, 'collectionName': 'cachebox'
 	};
@@ -61,9 +63,11 @@ cachebox.withdraw(params, function(err, results) {
 			// ... -> Gives us 'data'
 			
 			// Deposit the result so we don't need to waste time again
+			// Here we return the data after making the deposit
+			// But really you could return the data before making the deposit
 			cachebox.deposit(params, data, function(err) {
 				if (err) { throw new Error(err); }
-				else { callback(null, results); }
+				else { callback(null, data); }
 			});	
 			
 		} 
@@ -76,12 +80,13 @@ cachebox.withdraw(params, function(err, results) {
 
 ## Geospatial Hotness!
 
-When data is geospatial, sometimes we don't need to re-execute a query if the location change is small. CacheBox (and mongo) make this easy.
-Just define maxDist and distUnit, then pass lonlat as one of your params.
+**Note that for geospatial to work, you must have maxDist and distUnit defined in your CacheBox config!**
 
-Note: lonlat must be an array with 2 numbers, and in the format [ longitude, latitude ].
+When data is geospatial, sometimes we don't need to re-execute a query if the location change is small. CacheBox (and mongo) make this easy.
+Just define maxDist and distUnit, then pass 'lonlat' as one of your params.
+
+**Note: lonlat must be an array with 2 numbers, and in the format [ longitude, latitude ].**
 While most people write it as latitude/longitude, Mongo follows the lon/lat spec. 
 
 Now when you make a withdraw you'll get results within "maxDist" that match the rest of the params. Hot!
 
-*Note that for geospatial to work, you must have maxDist and distUnit defined in your CacheBox config!*
